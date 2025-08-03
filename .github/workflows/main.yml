@@ -1,0 +1,25 @@
+name: Manual Build dead-man-switch-tui
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y libssl-dev pkg-config
+
+      - name: Build binary
+        run: cargo build --release --package dead-man-switch-tui
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: dead-man-switch-tui
+          path: target/release/dead-man-switch-tui
